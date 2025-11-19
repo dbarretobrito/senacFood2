@@ -18,6 +18,8 @@ import {
   Error,
 } from "./styles";
 
+import contactImg from "../../assets/contact.png";
+
 // 🔒 mock de auth — troque depois pelo seu hook real
 function useAuth() {
   // retorne null se não estiver logado
@@ -97,7 +99,7 @@ export default function ContactPage() {
       <Page>
         <Container>
           <LeftPane>
-            <ChefImg src={FALLBACK_IMG} alt="" aria-hidden="true" />
+            <ChefImg src={contactImg} alt="Ilustração de contato" />
           </LeftPane>
 
           <RightPane>
