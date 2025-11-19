@@ -4,36 +4,30 @@ import {
   SplitCard,
   LeftPane,
   RightPane,
-  TagPill,
-  TagIcon,
-  TagText,
   Title,
   Description,
   ChipRow,
   Chip,
   FooterRow,
-  Author,
-  AuthorAvatar,
-  AuthorInfo,
+  CalloutTitle,
   CtaButton,
-  CtaIcon,
+  CtaEmoji,
 } from "./styles";
 
 import heroImage from "../../assets/mask-group.png";
-import authorImg from "../../assets/ellipse-2.png";
-import tagIcon from "../../assets/image-14.png";
-import playIcon from "../../assets/vector-7.svg";
 
 export default function HeroSection() {
+  const handleSeeRecipes = () => {
+    const section = document.getElementById("recipes-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <HeroWrapper>
       <SplitCard>
         <LeftPane>
-          <TagPill>
-            <TagIcon src={tagIcon} alt="Tag" />
-            <TagText>Receitas Quentes</TagText>
-          </TagPill>
-
           <Title>Asinhas de frango picantes</Title>
 
           <Description>
@@ -47,17 +41,13 @@ export default function HeroSection() {
           </ChipRow>
 
           <FooterRow>
-            <Author>
-              <AuthorAvatar src={authorImg} alt="Autor" />
-              <AuthorInfo>
-                <strong>João da Silva</strong>
-                <span>15 Setembro 2025</span>
-              </AuthorInfo>
-            </Author>
+            
 
-            <CtaButton>
-              <CtaIcon src={playIcon} alt="Play" />
-              Ver Receitas
+            <CtaButton type="button" onClick={handleSeeRecipes}>
+              <CtaEmoji role="img" aria-hidden="true">
+                🍽️
+              </CtaEmoji>
+              Ver receitas
             </CtaButton>
           </FooterRow>
         </LeftPane>

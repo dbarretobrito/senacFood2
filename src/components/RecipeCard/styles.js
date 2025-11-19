@@ -1,22 +1,44 @@
 import styled from "styled-components";
 
 export const Card = styled.article`
-  border-radius: 18px;
+  width: 260px;              /* largura fixa “tijolinho” */
+  border-radius: 16px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 680px) {
+    width: 100%;             /* no mobile pode ocupar a largura toda */
+    max-width: 360px;
+  }
 `;
+
 
 export const Cover = styled.div`
   position: relative;
-  /* Ajuste fácil de “mais quadrado”: mude para 1 / 1 */
-  aspect-ratio: 4 / 3;
-  background-size: cover;
+  /* mais quadrado */
+  aspect-ratio: 1 / 1;
+
+  /* mesmo fundo “clarinho” vibe categories */
+  background: #f9fafb;
   background-position: center;
-  background-color: #e5e7eb;
+  background-size: cover;
   border-bottom: 1px solid #f1f5f9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const PlaceholderEmoji = styled.span`
+  font-size: 3.2rem; /* emoji grande */
+  @media (min-width: 768px) {
+    font-size: 3.6rem;
+  }
+  line-height: 1;
+  opacity: 0.98;
 `;
 
 export const HeartButton = styled.button`
@@ -27,27 +49,32 @@ export const HeartButton = styled.button`
   height: 38px;
   border-radius: 999px;
   border: 0;
-  background: #ffffffcc;
+  background: ${({ $active }) => ($active ? "#fee2e2" : "#ffffffcc")};
   backdrop-filter: blur(4px);
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ $active, theme }) =>
+    $active ? theme.colors?.primary || "#ef4444" : "#111827"};
 
   &:hover {
-    background: #fff;
+    background: ${({ $active }) => ($active ? "#fecaca" : "#fff")};
   }
 `;
 
 export const CardBody = styled.div`
-  padding: 1rem 1rem 1.2rem;
+  padding: 0.8rem 0.9rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.7rem;
   background: ${({ $featured }) => ($featured ? "#eaf9fd" : "#fff")};
 `;
 
 export const CardTitle = styled.h3`
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   line-height: 1.35;
   color: #0f172a;
   font-weight: 700;
@@ -55,7 +82,7 @@ export const CardTitle = styled.h3`
 
 export const MetaRow = styled.div`
   display: flex;
-  gap: 0.6rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 `;
 
@@ -63,9 +90,9 @@ export const MetaPill = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #0f172a;
   background: #f4f8f9;
   border-radius: 999px;
-  padding: 0.45rem 0.8rem;
+  padding: 0.38rem 0.75rem;
 `;

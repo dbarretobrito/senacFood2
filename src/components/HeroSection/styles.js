@@ -44,53 +44,27 @@ export const LeftPane = styled.div`
 /* Lado direito (rosado) */
 export const RightPane = styled.div`
   position: relative;
-  background: #f8d2d2; /* cor de fundo, visível caso a imagem não carregue */
+  background: #f8d2d2;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0; /* removemos padding para colar a imagem nas bordas */
+  padding: 0;
 
-  /* a imagem interna agora ocupa todo o espaço */
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 0 24px 24px 0; /* arredondamento do canto direito do card */
+    border-radius: 0 24px 24px 0;
     display: block;
   }
 
   @media (max-width: 1100px) {
-    border-radius: 0 0 24px 24px; /* bordas inferiores no mobile */
+    border-radius: 0 0 24px 24px;
     img {
       border-radius: 0 0 24px 24px;
-      height: 320px; /* define altura mínima no mobile */
+      height: 320px;
     }
   }
-`;
-
-
-/* Tag “Receitas Quentes” */
-export const TagPill = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: #ffffff;
-  border-radius: 30px;
-  padding: 0.55rem 1rem;
-  box-shadow: 0 10px 20px rgba(41, 64, 70, 0.1);
-  width: fit-content;
-`;
-
-export const TagIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-`;
-
-export const TagText = styled.span`
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #000;
 `;
 
 /* Título e descrição */
@@ -132,51 +106,22 @@ export const Chip = styled.span`
   font-weight: 500;
 `;
 
-/* Rodapé do card (autor + botão CTA) */
+/* Texto + botão em coluna */
 export const FooterRow = styled.div`
   margin-top: 1rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-
-  @media (max-width: 520px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-`;
-
-export const Author = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-`;
-
-export const AuthorAvatar = styled.img`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
-export const AuthorInfo = styled.div`
-  display: flex;
   flex-direction: column;
-  line-height: 1.2;
-
-  strong {
-    color: #000;
-    font-weight: 700;
-    font-size: 0.98rem;
-  }
-
-  span {
-    color: #6b7280;
-    font-size: 0.85rem;
-  }
+  align-items: flex-start;
+  gap: 0.75rem;
 `;
 
+export const CalloutTitle = styled.span`
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111827;
+`;
+
+/* Botão CTA */
 export const CtaButton = styled.button`
   display: inline-flex;
   align-items: center;
@@ -186,7 +131,7 @@ export const CtaButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 14px;
-  padding: 0.95rem 1.6rem;
+  padding: 0.95rem 1.25rem;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, opacity 0.15s ease;
@@ -197,9 +142,8 @@ export const CtaButton = styled.button`
   }
 `;
 
-export const CtaIcon = styled.img`
-  width: 16px;
-  height: 16px;
+export const CtaEmoji = styled.span`
+  font-size: 1.1rem;
+  line-height: 1;
+  transform: translateY(1px);
 `;
-
-

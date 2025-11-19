@@ -40,63 +40,98 @@ export const CtaRow = styled.div`
 `;
 
 export const CtaButton = styled.button`
-  background: #7c3aed;
+  background: #0f172a; /* preto azulado, combinando com a navbar */
   color: #fff;
   font-weight: 700;
   border: 0;
   border-radius: 12px;
   padding: 0.8rem 1.4rem;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+  letter-spacing: 0.04em;
+  font-size: 0.9rem;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
 
   &:hover {
-    opacity: 0.95;
+    background: #020617; /* mais escuro no hover */
     transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+    background: #111827; /* cinza bem escuro no clique */
+  }
+
+  &:focus-visible {
+    outline: 2px solid #e5e7eb;
+    outline-offset: 3px;
+  }
+`;
+
+/* Barra de busca */
+export const SearchRow = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+`;
+
+export const SearchInput = styled.input`
+  width: 100%;
+  max-width: 340px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  background: #f9fafb;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 1px #7c3aed20;
+    background: #ffffff;
   }
 `;
 
 /* GRID: responsivo */
 export const CardsGrid = styled.div`
   margin-top: 2rem;
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  @media (max-width: 1100px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  justify-items: center;
 
   @media (max-width: 680px) {
     grid-template-columns: 1fr;
   }
 `;
 
-/* Card de anúncio (última coluna) */
-export const AdCard = styled.article`
-  border-radius: 18px;
-  overflow: hidden;
-  background: #0f766e;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100%;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-`;
-
-export const AdInner = styled.div`
+export const EmptyState = styled.div`
+  margin-top: 1.8rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: #f9fafb;
+  border: 1px dashed #e5e7eb;
   text-align: center;
-  padding: 1.8rem;
-`;
+  color: #6b7280;
+  font-size: 0.95rem;
 
-export const AdTitle = styled.h4`
-  font-weight: 800;
-  font-size: 1.4rem;
-  line-height: 1.3;
-`;
-
-export const AdSubtitle = styled.p`
-  margin-top: 0.6rem;
-  opacity: 0.85;
+  strong {
+    color: #374151;
+  }
 `;

@@ -1,4 +1,6 @@
-import React from "react";
+// src/components/RecipesSection/index.jsx
+import React, { useMemo, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Section,
   Header,
@@ -7,100 +9,150 @@ import {
   CtaRow,
   CtaButton,
   CardsGrid,
+  EmptyState,
+  SearchRow,
+  SearchInput,
 } from "./styles";
 import RecipeCard from "../RecipeCard";
+import { useFavorites } from "../../context/favorites";
 
-const RECIPES = [
-  {
-    id: 1,
-    title: "Big and Juicy Wagyu Beef Cheeseburger",
-    image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop",
-    time: "30 Minutos",
-    category: "Lanche",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Salmão Assado ao Limão com Molho de Gengibre",
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop",
-    time: "30 Minutos",
-    category: "Frutos do Mar",
-  },
-  {
-    id: 3,
-    title: "Panqueca de Aveia com Morango e Calda de Mel",
-    image: "https://images.unsplash.com/photo-1509460913899-35fd2b1df236?q=80&w=1200&auto=format&fit=crop",
-    time: "30 Minutos",
-    category: "Doce",
-  },
-  {
-    id: 4,
-    title: "Salada Mista com Maionese, Fresca e Saudável",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop",
-    time: "30 Minutos",
-    category: "Saudável",
-  },
-  {
-    id: 5,
-    title: "Almôndegas de Frango com Cream Cheese",
-    image: "https://images.unsplash.com/photo-1604908554007-08969a2c4970?q=80&w=1200&auto=format&fit=crop",
-    time: "30 Minutos",
-    category: "Carne",
-  },
-  {
-    id: 6,
-    title: "Wrap de Frango com Legumes e Molho Caesar",
-    image: "https://images.unsplash.com/photo-1601050690597-8c8a9249f8e8?q=80&w=1200&auto=format&fit=crop",
-    time: "25 Minutos",
-    category: "Lanche",
-  },
-  {
-    id: 7,
-    title: "Risoto de Cogumelos com Queijo Parmesão",
-    image: "https://images.unsplash.com/photo-1601050690597-8c8a9249f8e8?q=80&w=1200&auto=format&fit=crop",
-    time: "40 Minutos",
-    category: "Vegetariano",
-  },
-  {
-    id: 8,
-    title: "Smoothie de Frutas Vermelhas com Aveia",
-    image: "https://images.unsplash.com/photo-1601050690597-8c8a9249f8e8?q=80&w=1200&auto=format&fit=crop",
-    time: "10 Minutos",
-    category: "Bebida",
-  },
-  {
-    id: 9,
-    title: "Pizza Margherita Artesanal",
-    image: "https://images.unsplash.com/photo-1601924928376-3f6a3b57e8a8?q=80&w=1200&auto=format&fit=crop",
-    time: "35 Minutos",
-    category: "Italiana",
-  },
-];
+export default function RecipesSection({ recipes = [], loading = false }) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const navigate = useNavigate();
 
-export default function RecipesSection() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const hasAnyRecipe = recipes && recipes.length > 0;
+
+  const filteredRecipes = useMemo(() => {
+    if (!recipes) return [];
+
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return recipes;
+
+    return recipes.filter((r) => {
+      const title = (r.titulo || r.title || "").toLowerCase();
+      const desc = (r.descricao || "").toLowerCase();
+      const cat = (r.categoria?.nome || r.category || "").toLowerCase();
+
+      return (
+        title.includes(term) ||
+        desc.includes(term) ||
+        cat.includes(term)
+      );
+    });
+  }, [recipes, searchTerm]);
+
+  const hasFiltered = filteredRecipes.length > 0;
+
+  const handleCtaClick = () => {
+    navigate("/receitas/nova");
+  };
+
+  if (loading) {
+    return (
+      <Section>
+        <Header>
+          <Title>Suas receitas</Title>
+          <Subtitle>Carregando seu caderno SenacFood...</Subtitle>
+        </Header>
+      </Section>
+    );
+  }
+
+  const titleText = hasAnyRecipe
+    ? "Suas receitas"
+    : "Comece seu caderno de receitas";
+
+  const subtitleText = hasAnyRecipe
+    ? "Veja as receitas que você já cadastrou. Toque em uma para ver os detalhes ou use a busca abaixo."
+    : "Você ainda não cadastrou nenhuma receita. Que tal criar a primeira agora?";
+
   return (
     <Section>
       <Header>
-        <Title>Receitas simples e deliciosas</Title>
-        <Subtitle>Prepare pratos incríveis em poucos passos.</Subtitle>
+        <Title>{titleText}</Title>
+        <Subtitle>{subtitleText}</Subtitle>
 
         <CtaRow>
-          <CtaButton type="button">SUGESTÕES COM IA?</CtaButton>
+          <CtaButton type="button" onClick={handleCtaClick}>
+            {hasAnyRecipe ? "CRIAR NOVA RECEITA" : "CRIAR MINHA PRIMEIRA RECEITA"}
+          </CtaButton>
         </CtaRow>
+
+        {/* Só mostra a caixa de busca se já existir pelo menos 1 receita */}
+        {hasAnyRecipe && (
+          <SearchRow>
+            <SearchInput
+              id="recipes-search-input"
+              type="search"
+              placeholder="Buscar por título, descrição ou categoria..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </SearchRow>
+        )}
       </Header>
 
-      <CardsGrid>
-        {RECIPES.map((r) => (
-          <RecipeCard
-            key={r.id}
-            title={r.title}
-            image={r.image}
-            time={r.time}
-            category={r.category}
-            featured={r.featured}
-          />
-        ))}
-      </CardsGrid>
+      {/* Caso NÃO haja nenhuma receita cadastrada ainda */}
+      {!hasAnyRecipe && (
+        <EmptyState>
+          <p>
+            Assim que você cadastrar receitas, elas aparecerão aqui em forma de cartões.
+          </p>
+        </EmptyState>
+      )}
+
+      {/* Já existem receitas, mas o filtro não encontrou nada */}
+      {hasAnyRecipe && !hasFiltered && searchTerm.trim() !== "" && (
+        <EmptyState>
+          <p>
+            Nenhuma receita encontrada para <strong>"{searchTerm}"</strong>.
+            <br />
+            Tente outro termo ou limpe a busca.
+          </p>
+        </EmptyState>
+      )}
+
+      {/* Lista filtrada de receitas */}
+      {hasFiltered && (
+        <CardsGrid>
+          {filteredRecipes.map((r) => {
+            const timeLabel = r.tempo_preparo
+              ? `${r.tempo_preparo} min`
+              : "Tempo não informado";
+
+            const categoryLabel = r.categoria?.nome || "Sem categoria";
+
+            return (
+              <Link
+                key={r.id}
+                to={`/receita/${r.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <RecipeCard
+                  title={r.titulo}
+                  image={null} // sem imagem vinda do backend
+                  time={timeLabel}
+                  category={categoryLabel}
+                  featured={false}
+                  isFavorite={isFavorite(r.id)}
+                  onFavorite={(e) => {
+                    e.preventDefault(); // não navegar ao clicar no coração
+                    toggleFavorite({
+                      id: r.id,
+                      title: r.titulo,
+                      image: null,
+                      time: timeLabel,
+                      category: categoryLabel,
+                    });
+                  }}
+                />
+              </Link>
+            );
+          })}
+        </CardsGrid>
+      )}
     </Section>
   );
 }
